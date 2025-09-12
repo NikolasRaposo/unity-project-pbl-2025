@@ -9,6 +9,7 @@ namespace Entity {
         public int MaxHealth => maxHealth;
         public UnityEvent<int> onDamageTaken;
         public UnityEvent onDied;
+        public static event System.Action<HealthComponent> OnAnyHealthComponentDied;
         private void Awake() {
             CurrentHealth = maxHealth;
         }
@@ -24,6 +25,7 @@ namespace Entity {
         private void Die() {
             Debug.Log($"{gameObject.name} has died.");
             onDied?.Invoke();
+            OnAnyHealthComponentDied?.Invoke(this);
             Destroy(gameObject);
         }
     }
