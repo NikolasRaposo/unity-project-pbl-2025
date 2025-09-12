@@ -1,3 +1,4 @@
+using Entity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 namespace Player {
@@ -32,12 +33,9 @@ namespace Player {
         private void PerformAttack() {
             Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayer);
             foreach (Collider enemy in hitEnemies) {
-                Debug.Log($"<color=red>Hit:</color> {enemy.name} by {attackDamage} of damage!");
-                // Exemplo de como será no futuro:
-                // if (enemy.TryGetComponent<EnemyHealth>(out EnemyHealth enemyHealth))
-                // {
-                //     enemyHealth.TakeDamage(attackDamage);
-                // }
+                if (enemy.TryGetComponent(out HealthComponent enemyHealth)) {
+                    enemyHealth.TakeDamage(attackDamage);
+                }
             }
         }
         private void OnDrawGizmosSelected() {
