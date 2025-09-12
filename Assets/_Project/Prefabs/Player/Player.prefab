@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 1947519593198490275}
   - component: {fileID: 7295496326938152625}
   - component: {fileID: 4573470221128226008}
+  - component: {fileID: 2201139470303509174}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,6 +115,25 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   attackPoint: {fileID: 6114178791278672224}
+--- !u!114 &2201139470303509174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409901350161233203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01fbebf621d6c1d4db1a7019ebe71d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  onDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  onDied:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1336378162183411147
 GameObject:
   m_ObjectHideFlags: 0

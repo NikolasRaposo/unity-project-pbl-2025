@@ -10,8 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 681203169164633866}
   - component: {fileID: 8581950152664321358}
+  - component: {fileID: 2204374454536548033}
   - component: {fileID: 8071129660142867796}
-  m_Layer: 0
+  - component: {fileID: 3691942399932573771}
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,6 +59,28 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!195 &2204374454536548033
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5115127430139877540}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!114 &8071129660142867796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,13 +93,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01fbebf621d6c1d4db1a7019ebe71d98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 30
   onDamageTaken:
     m_PersistentCalls:
       m_Calls: []
   onDied:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3691942399932573771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5115127430139877540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d09246684a123204891f3fc4a57de852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 5
+  attackRadius: 2
+  attackDamage: 10
+  attackCooldown: 1
 --- !u!1 &8536954377174546874
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,7 +127,6 @@ GameObject:
   - component: {fileID: 1772193203138575334}
   - component: {fileID: 1656334036431088075}
   - component: {fileID: 1648267971656219466}
-  - component: {fileID: 3812723871499247630}
   m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
@@ -163,26 +202,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &3812723871499247630
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8536954377174546874}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
