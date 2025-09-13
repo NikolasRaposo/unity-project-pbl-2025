@@ -5,7 +5,7 @@ namespace Entity {
     public class HealthComponent : MonoBehaviour {
         [Header("Health Settings")]
         [SerializeField] private int maxHealth = 100;
-        private int CurrentHealth { get; set; }
+        public int CurrentHealth { get; private set; }
         public int MaxHealth => maxHealth;
         public UnityEvent<int> onDamageTaken;
         public UnityEvent onDied;

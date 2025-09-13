@@ -22,6 +22,7 @@ namespace Player {
         private PlayerController _playerController;
         private CharacterController _characterController;
         private PlayerControls _playerControls;
+        public event System.Action<float> OnDashUsed;
         private void Awake() {
             _playerController = GetComponent<PlayerController>();
             _characterController = GetComponent<CharacterController>();
@@ -38,6 +39,7 @@ namespace Player {
         private void HandleDashPerformed(InputAction.CallbackContext context) {
             if (!(Time.time >= _lastDashTime + dashCooldown)) return;
             _lastDashTime = Time.time;
+            OnDashUsed?.Invoke(dashCooldown);
             StartCoroutine(PerformDash());
         }
         private IEnumerator PerformDash() {
