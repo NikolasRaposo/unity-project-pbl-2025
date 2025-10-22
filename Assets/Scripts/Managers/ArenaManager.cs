@@ -33,7 +33,7 @@ namespace Managers {
                 }
             }
         }
-        private void HandleEnemyDied(HealthComponent deadEnemy) {
+        private void HandleEnemyDied(HealthComponent deadEnemy, GameObject killer) {
             if (_activeEnemies.Contains(deadEnemy)) {
                 _activeEnemies.Remove(deadEnemy);
             }

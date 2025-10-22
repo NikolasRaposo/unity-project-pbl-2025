@@ -1,57 +1,76 @@
+using Input;
 using UnityEngine;
+using UnityEngine.InputSystem; // Required
 
 namespace Player {
     [RequireComponent(typeof(CharacterController), typeof(PlayerDash))]
     public class PlayerController : MonoBehaviour {
+        [Header("Player ID")]
+        [Tooltip("The ID for this player (Player1 or Player2).")]
+        [SerializeField] private PlayerID playerID;
+        
         [Header("Movement Settings")]
+        [Tooltip("Movement speed of the player.")]
         public float moveSpeed = 8f;
+        [Tooltip("How fast the player rotates to face the movement direction.")]
         public float rotationSpeed = 15f;
-        public LayerMask groundLayer;
+        [Tooltip("Layer mask for the ground (used for rotation, though logic is changed).")]
+        public LayerMask groundLayer; 
 
         public Vector2 MoveInput { get; private set; }
         public Vector3 LookDirection { get; private set; }
-        public bool IsInvincible {
-            get {
-                return _playerDash.IsInvincible;
-            }
-        }
-        private PlayerControls _playerControls;
+        public bool IsInvincible => _playerDash != null && _playerDash.IsInvincible;
+
+        // --- Input Action Fields ---
+        private InputActionMap _playerActionMap;
+        private InputAction _moveAction;
+        // ---
+
         private CharacterController _characterController;
         private PlayerDash _playerDash;
+
         private void Awake() {
             _characterController = GetComponent<CharacterController>();
-            _playerDash = GetComponent<PlayerDash>(); 
-            _playerControls = new PlayerControls();
-            _playerDash.Configure(_playerControls);
+            _playerDash = GetComponent<PlayerDash>();
+            
+            // Get action map from the central InputManager
+            _playerActionMap = InputManager.Instance.GetPlayerActionMap(playerID);
+            
+            // Find and store the specific actions we need
+            _moveAction = _playerActionMap.FindAction("Move");
+            
+            // Configure dash with the correct action map
+            _playerDash.Configure(_playerActionMap);
         }
-        private void OnEnable() { _playerControls.Player.Enable(); }
+        
+        // OnEnable/OnDisable are no longer needed here, InputManager handles it.
 
-        private void OnDisable() { _playerControls.Player.Disable(); }
         private void Update() {
-            if (_playerDash.IsDashing) return;
+            if (_playerDash != null && _playerDash.IsDashing) return;
+            
             HandleInput();
             HandleMovement();
             HandleRotation();
         }
 
         private void HandleInput() {
-            MoveInput = _playerControls.Player.Move.ReadValue<Vector2>();
-            LookDirection = _playerControls.Player.Look.ReadValue<Vector2>();
+            // Read value directly from the stored move action
+            MoveInput = _moveAction.ReadValue<Vector2>();
         }
 
         private void HandleMovement() {
             Vector3 moveDirection = new Vector3(MoveInput.x, 0f, MoveInput.y);
-            _characterController.Move(moveDirection*(moveSpeed*Time.deltaTime));
+            _characterController.Move(moveDirection * (moveSpeed * Time.deltaTime));
         }
+
         private void HandleRotation() {
-            Ray ray = Camera.main.ScreenPointToRay(LookDirection);
-            if (!Physics.Raycast(ray, out RaycastHit hitInfo, maxDistance: Mathf.Infinity, layerMask: groundLayer)) return;
-            Vector3 lookDirection = hitInfo.point - transform.position;
-            lookDirection.y = 0;
-            if (!(lookDirection.sqrMagnitude > 0.01f)) return;
-            Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-            LookDirection = lookDirection.normalized;
+            Vector3 moveDirection = new Vector3(MoveInput.x, 0f, MoveInput.y);
+
+            if (moveDirection.sqrMagnitude > 0.01f) {
+                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+                LookDirection = moveDirection.normalized;
+            }
         }
     }
 }

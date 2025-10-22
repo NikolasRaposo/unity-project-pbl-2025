@@ -15,14 +15,14 @@ namespace UI {
             if (player == null || !player.TryGetComponent(out _playerHealthComponent)) return;
             _healthSlider.maxValue = _playerHealthComponent.MaxHealth;
             _healthSlider.value = _playerHealthComponent.CurrentHealth;
-            _playerHealthComponent.onDamageTaken.AddListener(UpdateHealthBar);
+            _playerHealthComponent.onDamageTaken.AddListener(UpdateHealthBar); // This is fine
         }
         private void OnDestroy() {
             if(_playerHealthComponent != null) {
                 _playerHealthComponent.onDamageTaken.RemoveListener(UpdateHealthBar);
             }
         }
-        private void UpdateHealthBar(int damage) {
+        private void UpdateHealthBar(int damage, GameObject damageDealer) {
             _healthSlider.value = _playerHealthComponent.CurrentHealth;
         }
     }

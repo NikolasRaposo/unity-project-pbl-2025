@@ -75,7 +75,7 @@ namespace Enemy {
             _lastAttackTime = Time.time;
             if (!_playerHealth) return;
             Debug.Log($"<color=orange>Inimigo atacou o jogador!</color>");
-            _playerHealth.TakeDamage(attackDamage);
+            _playerHealth.TakeDamage(attackDamage, gameObject);
         }
         private void OnDrawGizmosSelected() {
             Gizmos.color = Color.green;

@@ -16,7 +16,7 @@ namespace UI {
         private void Start() {
             healthSlider.maxValue = _enemyHealth.MaxHealth;
             healthSlider.value = _enemyHealth.CurrentHealth;
-            _enemyHealth.onDamageTaken.AddListener(HandleDamageTaken);
+            _enemyHealth.onDamageTaken.AddListener(HandleDamageTaken); // This is fine
         }
         private void OnDestroy() {
             if (_enemyHealth != null) {
@@ -24,9 +24,9 @@ namespace UI {
             }
         }
         private void LateUpdate() {
-            transform.LookAt(transform.position + Camera.main.transform.forward);
+            transform.LookAt(transform.position + Camera.main!.transform.forward);
         }
-        private void HandleDamageTaken(int damage) {
+        private void HandleDamageTaken(int damage, GameObject damageDealer) {
             healthSlider.gameObject.SetActive(true);
             healthSlider.value = _enemyHealth.CurrentHealth;
             if(_hideCoroutine != null) {
